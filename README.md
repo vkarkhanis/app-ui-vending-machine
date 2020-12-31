@@ -4,26 +4,17 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* React based UI to demonstrate Vending Machine functionality 
+* 1.0
+* https://bitbucket.org/vkarkhanis/app-ui-vending-machine
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
 
-### Contribution guidelines ###
+* git clone https://vkarkhanis@bitbucket.org/vkarkhanis/app-ui-vending-machine.git
+* git clone https://vkarkhanis@bitbucket.org/vkarkhanis/app-api-vendingmachine.git
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Start back end REST service by lanching VendingMachine Spring Boot main class with active profiles as dev
+* Start UI application as follow:
+	yarn install
+	yarn start
