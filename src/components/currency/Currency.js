@@ -1,27 +1,32 @@
 import './currency.css';
-import {addAmount, increaseAmount} from '../../services/rest-service';
+import { useCurrencyActions } from '../../behaviour/useCurrencyActions';
 
 export const Currency = (props) => {
 
-    const onAmountAdded = async () => {
+	const { onAmountAdded } = useCurrencyActions(props.requestId);
 
-        const {onAmountAdded, requestId} = props;
+    const onCurrencyClicked = async () => {
 
-		let vendingMachineResponse;
+		try {
+			const vendingMachineResponse = await onAmountAdded(props.value);
 		
-		if (requestId) {
-			vendingMachineResponse = await increaseAmount(props.value, requestId);
-		} else {
-			vendingMachineResponse = await addAmount(props.value);	
+			if (vendingMachineResponse) {
+				props.onAmountAdded && props.onAmountAdded(vendingMachineResponse);
+			} 
+		} catch(e) {
+			console.error(e);
 		}
-        
-		if (vendingMachineResponse) {
-			onAmountAdded && onAmountAdded(vendingMachineResponse);
-		}
-        
-    }
+		
+	}
 	
     return (
-        <button className={'bill'} onClick={onAmountAdded} disabled={props.disabled}>{props.value}</button>
+        <button 
+			data-testid={'vm-currency-btn-id'} 
+			className={'bill'} 
+			onClick={onCurrencyClicked} 
+			disabled={props.disabled}>
+
+			{props.value}
+		</button>
     );
 }

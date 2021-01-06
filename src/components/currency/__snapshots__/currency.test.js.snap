@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render Currency component test Match snapshot 1`] = `
+<button
+  className="bill"
+  data-testid="vm-currency-btn-id"
+  disabled={false}
+  onClick={[Function]}
+>
+  Test
+</button>
+`;

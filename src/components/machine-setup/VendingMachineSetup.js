@@ -1,6 +1,6 @@
 import {Currency} from '../../components/currency/Currency';
 import {ProductDescription} from '../../components/product/ProductDescription';
-import React, {useState} from 'react';
+import React from 'react';
 import {useVendingMachineActions} from '../../behaviour/useVendingMachineActions';
 
 const VendingMachineSetup =(props)=>{
