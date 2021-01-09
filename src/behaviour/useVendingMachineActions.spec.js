@@ -56,15 +56,15 @@ describe('Testing vending machine actions', () => {
     mockResponses.forEach(eachResponse => {
 
         it(`Money ${eachResponse.operationStatus}`, () => {
-
-            restService.addAmount = jest.fn().mockResolvedValue(eachResponse);
     
             const { result } = renderHook(() => useVendingMachineActions(undefined));
      
+            // Act
             act(() => {
                 result.current.handleResponse(eachResponse)
             });
     
+            // Assert
             expect(result.current.requestId).toBe(3);
             expect(result.current.displayMsg).toBe(`Your current balance amount is: ${eachResponse.currentBalance.amount}`);
         })
@@ -72,8 +72,7 @@ describe('Testing vending machine actions', () => {
 
     
     it(`Money refunded`, () => {
-        restService.refundAmount = jest.fn().mockResolvedValue(mockRefundResponse);
-    
+      
         const resetVendingMachineCallBack = jest.fn();
 
         // Render hook using renderHook from @testing-library/react-hooks
@@ -121,8 +120,7 @@ describe('Testing vending machine actions', () => {
     mockProductDispatchResponse.forEach(eachResponse => {
 
         it(`Product Dispatched with ${eachResponse.operationStatus}`, () => {
-            restService.fetchProduct = jest.fn().mockResolvedValue(eachResponse);
-        
+            
             const resetVendingMachineCallBack = jest.fn();
     
             // Render hook using renderHook from @testing-library/react-hooks
@@ -145,6 +143,24 @@ describe('Testing vending machine actions', () => {
     
             expect(resetVendingMachineCallBack).toBeCalled();
     
+        });
+
+        it('Unknown Operation Status', () => {
+            const resetVendingMachineCallBack = jest.fn();
+            const { result } = renderHook(() => useVendingMachineActions(resetVendingMachineCallBack));
+
+            // Act is required if the called method updates state. 
+            act(() => {
+                result.current.handleResponse({operationStatus: 'UNKNOWN'})
+            });
+
+            expect(result.current.displayMsg).toBe(`There was some error while processing your request. Kindly collect your refund (if any) and try again later`);
+            expect(result.current.disabled).toBe(true);
+            expect(resetVendingMachineCallBack).not.toBeCalled();
+    
+            jest.runAllTimers();
+    
+            expect(resetVendingMachineCallBack).toBeCalled();
         });
     });
     

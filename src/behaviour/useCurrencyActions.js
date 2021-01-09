@@ -5,12 +5,17 @@ export const useCurrencyActions = (requestId) => {
     const onAmountAdded = async (value) => {
 
         let vendingMachineResponse;
-		
-		if (requestId) {
-            vendingMachineResponse = await increaseAmount(value, requestId);
-     	} else {
-			vendingMachineResponse = await addAmount(value);	
+        
+        try {
+            if (requestId) {
+                vendingMachineResponse = await increaseAmount(value, requestId);
+             } else {
+                vendingMachineResponse = await addAmount(value);	
+            }
+        } catch(error) {
+            throw error;
         }
+		
         
         return vendingMachineResponse;
     }

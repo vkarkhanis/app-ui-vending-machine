@@ -10,7 +10,6 @@ export const ProductDescription = (props) => {
 	}, []);
 	
 	const orderProduct = async (productId) => {
-		
 		const vendingMachineResponse = await fetchProduct(productId, props.requestId);
 		props.onProductSelected && props.onProductSelected(vendingMachineResponse);
 	}
@@ -23,9 +22,14 @@ export const ProductDescription = (props) => {
 			{products.map(eachProduct => 
 				<div key={eachProduct.id} className={'product-container'}>
 					<div className={'product-element-container'}>
-						<div>{eachProduct.name}</div>
-						<div>Rs. {eachProduct.price}</div>
-						<button onClick={() => orderProduct(eachProduct.id)} disabled={props.disabled}>Select</button>
+						<div data-testid={`product-name-${eachProduct.id}`}>{eachProduct.name}</div>
+						<div data-testid={`product-price-${eachProduct.id}`}>Rs. {eachProduct.price}</div>
+						<button 
+							onClick={() => orderProduct(eachProduct.id)} 
+							disabled={props.disabled}
+							data-testid={`product-select-${eachProduct.id}`}>
+							Select
+						</button>
 					</div>
 				</div>	
 				)}

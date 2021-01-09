@@ -20,18 +20,31 @@ const VendingMachineSetup =(props)=>{
 	<>
 		<div style={{display: 'flex', flexDirection: 'row'}}>
 			<div className={'primary-container'}>
-				<ProductDescription onProductSelected={handleResponse} requestId={requestId} disabled = {disabled} />
+				<ProductDescription 
+					onProductSelected={handleResponse} 
+					requestId={requestId} 
+					disabled = {disabled} />
 			</div>
 			<div className={'primary-container'}>
 			
 				<div>
 					<div>Please select the denomination: </div>
 					{ denominations.map(eachDenom => 
-						<Currency value={eachDenom} requestId={requestId} onAmountAdded={handleResponse} disabled = {disabled} />) }
+						<Currency 
+							value={eachDenom} 
+							requestId={requestId} 
+							onAmountAdded={handleResponse} 
+							disabled = {disabled} />) }
 						
 				</div>
 				
-				<button onClick={() => onRefundRequested(requestId)} className={'refundButton'} disabled = {disabled}>Refund</button>
+				<button 
+					onClick={() => onRefundRequested(requestId)} 
+					className={'refundButton'} 
+					disabled = {disabled}>
+					Refund
+				</button>
+				
 				<div className={'display-message-container'}>{displayMsg}</div>
 			</div>
 		</div>
