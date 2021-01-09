@@ -2,24 +2,41 @@ const BASE_URL = 'http://localhost:8080'
 
 export const addAmount = async (value) => {
 
-	return await updateAmount(`${BASE_URL}/vendingmachine/amount`, 'post', value);
+	try {
+		return await updateAmount(`${BASE_URL}/vendingmachine/amount`, 'post', value);
+	} catch (e) {
+		console.error(e);
+		throw e;
+	}
+	
 }
 
 export const increaseAmount = async (value, requestId) => {
 
-	return await updateAmount(`${BASE_URL}/vendingmachine/amount?requestId=${requestId}`, 'put', value);
+	try {
+		return await updateAmount(`${BASE_URL}/vendingmachine/amount?requestId=${requestId}`, 'put', value);
+	} catch(err) {
+		console.error(err);
+		throw err;
+	}
+	
 }
 
 export const refundAmount = async (requestId) => {
 
-	const resp = await fetch(`${BASE_URL}/vendingmachine/amount?requestId=${requestId}`);
-	return await resp.json();
+	try {
+		const resp = await fetch(`${BASE_URL}/vendingmachine/amount?requestId=${requestId}`);
+		return await resp.json();
+	} catch(err) {
+		console.error(err);
+		throw err;
+	}
 	
 }
 
 const updateAmount = async (url, method, value) => {
 	
-	    const resp = await fetch(url, {
+	const resp = await fetch(url, {
         method,
 		headers: {
 			"Content-type": "application/json"
@@ -28,21 +45,31 @@ const updateAmount = async (url, method, value) => {
     });
 
     const vendingMachineResponse = await resp.json();
-    console.log(`${method}Amount`, vendingMachineResponse);
     return vendingMachineResponse;
 }
 
 export const fetchAllProducts = async () => {
 
-	const resp = await fetch(`${BASE_URL}/vendingmachine/product`);
-	const products = await resp.json();
-	console.log('fetch all products', products)
-	return products;
-
+	try {
+		const resp = await fetch(`${BASE_URL}/vendingmachine/product`);
+		const products = await resp.json();
+		console.log('fetch all products', products)
+		return products;
+	} catch(err) {
+		console.error(err);
+		throw err;
+	}
+	
 }
 
 export const fetchProduct = async (productId, requestId) => {
 	
-	const resp = await fetch(`${BASE_URL}/vendingmachine/product/${productId}?requestId=${requestId}`);
-	return await resp.json();
+	try {
+		const resp = await fetch(`${BASE_URL}/vendingmachine/product/${productId}?requestId=${requestId}`);
+		return await resp.json();
+	} catch(err) {
+		console.error(err);
+		throw err;
+	}
+	
 }

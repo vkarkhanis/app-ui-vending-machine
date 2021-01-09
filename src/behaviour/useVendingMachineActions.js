@@ -29,8 +29,7 @@ export const useVendingMachineActions = (resetVendingMachine) => {
 			setChangeDispatch(`${vendingMachineResponse.change.amount}`);
 			setDisabled(true);
 			const timerId = setTimeout(() => {
-											
-											resetVendingMachine();
+				resetVendingMachine && resetVendingMachine();
 											clearTimeout(timerId);
 											}, 10000);
 			break;
@@ -40,20 +39,20 @@ export const useVendingMachineActions = (resetVendingMachine) => {
 			setDisabled(true);
 			setChangeDispatch(`${vendingMachineResponse.change.amount}`);
 			setProductDispatch(`${vendingMachineResponse.productToDispatch.name}`);
-			setTimeout(() => resetVendingMachine(), 10000);
+			setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
 			break;
 			
 		case 'INSUFFICIENT_BALANCE':
 			setDisplayMsg(`You have insufficient balance. Please collect your refund: ${vendingMachineResponse.currentBalance.amount}`);
 			setDisabled(true);
 			setChangeDispatch(`${vendingMachineResponse.currentBalance.amount}`);
-			setTimeout(() => resetVendingMachine(), 10000);
+			setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
 			break;
 			
 		default:
 			setDisplayMsg(`There was some error while processing your request. Kindly collect your refund (if any) and try again later`);
 			setDisabled(true);
-			setTimeout(() => resetVendingMachine(), 10000);
+			setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
 	 }
 	 
 	}
