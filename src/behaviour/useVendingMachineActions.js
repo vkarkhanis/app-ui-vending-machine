@@ -18,46 +18,64 @@ export const useVendingMachineActions = (resetVendingMachine) => {
 	
 		switch (vendingMachineResponse.operationStatus) {
 		 
-		 case 'MONEY_ADDED':
-		 case 'MONEY_UPDATED':
-			setRequestId(vendingMachineResponse.requestId);
-			setDisplayMsg(`Your current balance amount is: ${vendingMachineResponse.currentBalance.amount}`);
-			break;
-		
-		 case 'REFUND_PROCESSED':
-			setDisplayMsg(`Please collect your balance amount: ${vendingMachineResponse.change.amount}`);
-			setChangeDispatch(`${vendingMachineResponse.change.amount}`);
-			setDisabled(true);
-			const timerId = setTimeout(() => {
-				resetVendingMachine && resetVendingMachine();
-											clearTimeout(timerId);
-											}, 10000);
-			break;
+			case 'MONEY_ADDED':
+			case 'MONEY_UPDATED':
+				setRequestId(vendingMachineResponse.requestId);
+				setDisplayMsg(`Your current balance amount is: ${vendingMachineResponse.currentBalance.amount}`);
+				break;
 			
-		case 'PRODUCT_DISPATCHED':
-			setDisplayMsg(`Please collect your product: ${vendingMachineResponse.productToDispatch.name} and change of Rs: ${vendingMachineResponse.change.amount}`);
-			setDisabled(true);
-			setChangeDispatch(`${vendingMachineResponse.change.amount}`);
-			setProductDispatch(`${vendingMachineResponse.productToDispatch.name}`);
-			setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
-			break;
-			
-		case 'INSUFFICIENT_BALANCE':
-			setDisplayMsg(`You have insufficient balance. Please collect your refund: ${vendingMachineResponse.currentBalance.amount}`);
-			setDisabled(true);
-			setChangeDispatch(`${vendingMachineResponse.currentBalance.amount}`);
-			setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
-			break;
-			
-		default:
-			setDisplayMsg(`There was some error while processing your request. Kindly collect your refund (if any) and try again later`);
-			setDisabled(true);
-			setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
-	 }
-	 
+			case 'REFUND_PROCESSED':
+				setDisplayMsg(`Please collect your balance amount: ${vendingMachineResponse.currentBalance.amount}`);
+				setChangeDispatch(`${vendingMachineResponse.currentBalance.amount}`);
+				setDisabled(true);
+				const timerId = setTimeout(() => {
+					resetVendingMachine && resetVendingMachine();
+												clearTimeout(timerId);
+												}, 10000);
+				break;
+
+			case 'REFUND_AFTER_ERROR':
+				setDisplayMsg(`There was an error processing your request.
+					Please collect your balance amount: ${vendingMachineResponse.currentBalance.amount}`);
+				setChangeDispatch(`${vendingMachineResponse.currentBalance.amount}`);
+				setDisabled(true);
+				setTimeout(() => {
+					resetVendingMachine && resetVendingMachine();
+												}, 10000);
+				break;
+				
+			case 'PRODUCT_DISPATCHED':
+				setDisplayMsg(`Please collect your product: ${vendingMachineResponse.productToDispatch.name} and change of Rs: ${vendingMachineResponse.change.amount}`);
+				setDisabled(true);
+				setChangeDispatch(`${vendingMachineResponse.change.amount}`);
+				setProductDispatch(`${vendingMachineResponse.productToDispatch.name}`);
+				setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
+				break;
+				
+			case 'INSUFFICIENT_BALANCE':
+				setDisplayMsg(`You have insufficient balance. Please collect your refund: ${vendingMachineResponse.currentBalance.amount}`);
+				setDisabled(true);
+				setChangeDispatch(`${vendingMachineResponse.currentBalance.amount}`);
+				setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
+				break;
+				
+			default:
+				setDisplayMsg(`There was some error while processing your request. Kindly collect your refund (if any) and try again later`);
+				setDisabled(true);
+
+				if (vendingMachineResponse && vendingMachineResponse.currentBalance) {
+					const amount = vendingMachineResponse.currentBalance.amount;
+					if (amount) {
+						setChangeDispatch(amount);
+					}
+				}
+				
+				setTimeout(() => resetVendingMachine && resetVendingMachine(), 10000);
+	 	}
 	}
 	
-	return { handleResponse: handleVendingMachineActions, onRefundRequested, requestId, disabled, displayMsg, changeDispatch, productDispatch };
+	return { handleResponse: handleVendingMachineActions, 
+		onRefundRequested, requestId, disabled, displayMsg, changeDispatch, productDispatch };
 	
 }
 	
