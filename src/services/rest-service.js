@@ -1,9 +1,10 @@
+import VendingMachineResponse from "../model/VendingMachineResponse";
+
 const BASE_URL = 'http://localhost:8080'
 
 export const addAmount = async (value) => {
 
 	try {
-		// return await updateAmount(`${BASE_URL}/vendingmachine/amount`, 'post', value);
 		return await updateAmount(`${BASE_URL}/vendingmachine/v2/order`, 'post', value);
 	} catch (e) {
 		console.error(e);
@@ -15,7 +16,6 @@ export const addAmount = async (value) => {
 export const increaseAmount = async (value, orderId) => {
 
 	try {
-		// return await updateAmount(`${BASE_URL}/vendingmachine/amount?requestId=${requestId}`, 'put', value);
 		return await updateAmount(`${BASE_URL}/vendingmachine/v2/order/${orderId}`, 'put', value);
 	} catch(err) {
 		console.error(err);
@@ -24,8 +24,6 @@ export const increaseAmount = async (value, orderId) => {
 }
 
 export const refundAmount = async (orderId) => {
-	// const resp = await fetch(`${BASE_URL}/vendingmachine/amount?requestId=${requestId}`);
-
 	let resp;
 
 	try {
@@ -38,18 +36,9 @@ export const refundAmount = async (orderId) => {
 	const refundAmount = await resp.json();
 
 	if (refundAmount.errors) {
-		return {
-			operationStatus: "ERROR",
-		}
+		return new VendingMachineResponse(orderId, "ERROR");
 	}
-	return {
-		operationStatus: "REFUND_PROCESSED",
-		requestId: orderId,
-		currentBalance: {
-			amount: refundAmount,
-		}
-	}
-	
+	return new VendingMachineResponse(orderId, "REFUND_PROCESSED", refundAmount);
 	
 }
 
@@ -63,8 +52,7 @@ const updateAmount = async (url, method, value) => {
         body: JSON.stringify({amount: value}),
     });
 
-    const vendingMachineResponse = await resp.json();
-    return vendingMachineResponse;
+    return await resp.json();
 }
 
 export const fetchAllProducts = async () => {
@@ -84,18 +72,28 @@ export const fetchAllProducts = async () => {
 export const fetchProduct = async (productId, orderId) => {
 	
 	try {
-		// const resp = await fetch(`${BASE_URL}/vendingmachine/product/${productId}?requestId=${requestId}`);
 		const resp = await fetch(`${BASE_URL}/vendingmachine/v2/order/${orderId}/product/${productId}`);
 		const vendingMachineResponse = await resp.json();
-		return {
-			operationStatus: "PRODUCT_DISPATCHED",
-			requestId: orderId,
-			change: {
-				amount: vendingMachineResponse.balance,
-			},
-			productToDispatch: vendingMachineResponse.product
+	
+		if (vendingMachineResponse.errors) {
+			if (vendingMachineResponse.status === "INSUFFICIENT_BALANCE") {
+				const response = await refundAmount(orderId);
+				if (response.status === "ERROR") {
+					return {...response, status: "INSUFFICIENT_BALANCE_REFUND_ERROR"}
+				}
+				return {...response, status: "INSUFFICIENT_BALANCE"}
+			} else {
+				// Attempt refund                
+				const refund = await refundAmount(orderId);
+				if (refund.status === "ERROR") {
+					return {...refund, status: "PRODUCT_FETCH_AND_REFUND_FAILURE"};
+				} else {
+					return {...refund, status: "PRODUCT_FETCH_FAILURE"};
+				}
+			}
 		}
-		// return await resp.json();
+
+		return new VendingMachineResponse(orderId, "PRODUCT_DISPATCHED", vendingMachineResponse.balance, vendingMachineResponse.product);
 	} catch(err) {
 		console.error(err);
 		throw err;

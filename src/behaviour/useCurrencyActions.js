@@ -1,46 +1,35 @@
-import {addAmount, increaseAmount, refundAmount} from '../services/rest-service';
+import {addAmount, increaseAmount, refundAmount as attemptRefund} from '../services/rest-service';
+import VendingMachineResponse from "../model/VendingMachineResponse";
 
-export const useCurrencyActions = (requestId) => {
+export const useCurrencyActions = (orderId) => {
 
-    const attemptRefund = async (response) => {
+    const getFailureResponseWhenUpdatingAmount = (response) => {
 
         if (response.errors) {
-
-            // Attempt refund                
-            const refund = await refundAmount(requestId);
-            if (refund.operationStatus === "REFUND_PROCESSED") {
-
-                return {...refund, operationStatus: "REFUND_AFTER_ERROR"}
-            } else return refund;
+            return {...response, status: "UPDATE_AMOUNT_AND_REFUND_FAILURE"};
         }
 
-        
+        return {...response, status: "UPDATE_AMOUNT_FAILURE"};
     }
 
     const onAmountAdded = async (value) => {
 
         let vendingMachineResponse;
                 
-        if (requestId) {
+        if (orderId) {
             
             try {
-                vendingMachineResponse = await increaseAmount(value, requestId);
+                vendingMachineResponse = await increaseAmount(value, orderId);
             } catch(err) {
                 console.error(err);
-                return await attemptRefund(vendingMachineResponse);
+                return getFailureResponseWhenUpdatingAmount(await attemptRefund(orderId));
             }
             
             if (vendingMachineResponse.errors) {
-                return await attemptRefund(vendingMachineResponse);
+                return getFailureResponseWhenUpdatingAmount(await attemptRefund(orderId));
             }
 
-            return {
-                operationStatus: "MONEY_UPDATED",
-                requestId: requestId,
-                currentBalance: {
-                    amount: vendingMachineResponse.balance,
-                }
-            }
+            return new VendingMachineResponse(orderId, "MONEY_UPDATED", vendingMachineResponse.balance);
             
         } else {
 
@@ -53,21 +42,11 @@ export const useCurrencyActions = (requestId) => {
             
             if (vendingMachineResponse.errors) {
                 console.error("Exception while processing the request: " + vendingMachineResponse.message);
-                return {
-                    operationStatus: "ERROR",
-                }
+                return new VendingMachineResponse(undefined, "ERROR");
             }
-
-            return {
-                operationStatus: "MONEY_ADDED",
-                requestId: vendingMachineResponse.id,
-                currentBalance: {
-                    amount: vendingMachineResponse.balance,
-                }
-            }
+            return new VendingMachineResponse(vendingMachineResponse.id, "MONEY_ADDED", vendingMachineResponse.balance);
 
         }
-        // return vendingMachineResponse;
     }
 
     return { onAmountAdded };
