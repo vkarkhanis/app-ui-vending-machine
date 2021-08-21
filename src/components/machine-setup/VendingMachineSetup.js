@@ -7,7 +7,7 @@ const VendingMachineSetup =(props)=>{
 	
   const { handleResponse, 
 		  onRefundRequested, 
-		  requestId, 
+		  orderId, 
 		  disabled, 
 		  displayMsg, 
 		  changeDispatch, 
@@ -22,24 +22,25 @@ const VendingMachineSetup =(props)=>{
 			<div className={'primary-container'}>
 				<ProductDescription 
 					onProductSelected={handleResponse} 
-					requestId={requestId} 
+					requestId={orderId} 
 					disabled = {disabled} />
 			</div>
 			<div className={'primary-container'}>
 			
 				<div>
 					<div>Please select the denomination: </div>
-					{ denominations.map(eachDenom => 
+					{ denominations.map((eachDenom, idx) => 
 						<Currency 
+							key={idx}
 							value={eachDenom} 
-							requestId={requestId} 
+							requestId={orderId} 
 							onAmountAdded={handleResponse} 
 							disabled = {disabled} />) }
 						
 				</div>
 				
 				<button 
-					onClick={() => onRefundRequested(requestId)} 
+					onClick={() => onRefundRequested(orderId)} 
 					className={'refundButton'} 
 					disabled = {disabled}>
 					Refund

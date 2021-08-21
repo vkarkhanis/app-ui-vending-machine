@@ -17,7 +17,6 @@ export const Currency = (props) => {
 			console.error(e);
 			throw e;
 		}
-		
 	}
 	
     return (
