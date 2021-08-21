@@ -11,11 +11,10 @@ beforeEach(() => {
 describe('Test rest-service', () => {
 
     const mockedAddResponse = {
-        requestId: 1, 
+        orderId: 1, 
         productToDispatch: null, 
-        currentBalance: {amount: 10}, 
-        change: {amount: 0}, 
-        operationStatus: 'MONEY_ADDED'
+        balance: 10, 
+        status: 'MONEY_ADDED'
     };
 
     it(`Test addAmount`, async () => {
@@ -39,11 +38,10 @@ describe('Test rest-service', () => {
     });
 
     const mockedIncreaseResponse = {
-        requestId: 1, 
+        orderId: 1, 
         productToDispatch: null, 
-        currentBalance: {amount: 20}, 
-        change: {amount: 0}, 
-        operationStatus: 'MONEY_UPDATED'
+        balance: 20, 
+        status: 'MONEY_UPDATED'
     };
 
     it(`Test increaseAmount`, async () => {
@@ -66,20 +64,16 @@ describe('Test rest-service', () => {
         
     });
 
-    const mockedRefundResponse = {
-        requestId: 1, 
-        productToDispatch: null, 
-        currentBalance: {amount: 0}, 
-        change: {amount: 10}, 
-        operationStatus: 'REFUND_PROCESSED'
-    };
-
     it(`Test refundAmount`, async () => {
         
-        fetch.mockResponseOnce(JSON.stringify(mockedRefundResponse));
+        fetch.mockResponseOnce(JSON.stringify(10));
 
-        const moneyAdded = await refundAmount(10);
-        expect(moneyAdded).toStrictEqual(mockedRefundResponse);
+        const refundResponse = await refundAmount(1);
+        expect(refundResponse.balance).toBe(10);
+        expect(refundResponse.orderId).toBe(1);
+        expect(refundResponse.productToDispatch).not.toBeDefined();
+        expect(refundResponse.status).toBe("REFUND_PROCESSED");
+
         expect(fetch).toBeCalledTimes(1);
     });
 
@@ -117,20 +111,17 @@ describe('Test rest-service', () => {
         
     });
 
-    const mockedProductDispatch = {
-        requestId: 1, 
-        productToDispatch: {id: 1, price: 20, name: 'Product 1'}, 
-        currentBalance: {amount: 0}, 
-        change: {amount: 5}, 
-        operationStatus: 'PRODUCT_DISPATCHED'
-    };
-
     it(`Test product dispatch`, async () => {
         
-        fetch.mockResponseOnce(JSON.stringify(mockedProductDispatch));
+        fetch.mockResponseOnce(JSON.stringify({balance: 5, product: {id: 1, price: 20, name: 'Product 1'}}));
 
-        const product = await fetchProduct(10);
-        expect(product).toStrictEqual(mockedProductDispatch);
+        const product = await fetchProduct(1, 1);
+        expect(product.productToDispatch.id).toBe(1);
+        expect(product.productToDispatch.price).toBe(20);
+        expect(product.productToDispatch.name).toBe("Product 1");
+        expect(product.orderId).toBe(1);
+        expect(product.balance).toBe(5);
+        expect(product.status).toBe("PRODUCT_DISPATCHED");
         expect(fetch).toBeCalledTimes(1);
     });
 

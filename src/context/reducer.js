@@ -14,9 +14,10 @@ export const reducer = (state, action) => {
     switch(action.type) {
         case "BALANCE_UPDATE": {
             const {orderId, balance} = action.payload;
+
             return {
                 ...state, ...{orderId, 
-                    displayMsg: `Your current balance amount is Rs: ${balance}`}
+                    displayMsg: 'Your current balance amount is Rs: ' + balance}
             }
         }
 
@@ -33,7 +34,7 @@ export const reducer = (state, action) => {
             return {
                 ...state, ...{changeDispatch: balance, disabled: true, 
                     displayMsg: `There was an error processing your request.
-                    Please collect your balance amount: ${balance}`}
+                    Please collect your refund amount: ${balance}`}
             }
         }
 

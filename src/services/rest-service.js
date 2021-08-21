@@ -60,7 +60,6 @@ export const fetchAllProducts = async () => {
 	try {
 		const resp = await fetch(`${BASE_URL}/vendingmachine/product`);
 		const products = await resp.json();
-		console.log('fetch all products', products)
 		return products;
 	} catch(err) {
 		console.error(err);

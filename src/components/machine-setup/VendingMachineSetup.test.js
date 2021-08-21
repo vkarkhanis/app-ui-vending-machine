@@ -39,60 +39,55 @@ describe('Check various vending machine events', () => {
     
     const mockFunction = jest.fn();
     
-    restService.addAmount = jest.fn().mockResolvedValue({requestId: 1, productToDispatch: null, currentBalance: {amount: 10}, change: {amount: 0}, operationStatus: 'MONEY_ADDED'});
-    restService.increaseAmount = jest.fn().mockResolvedValue({requestId: 1, productToDispatch: null, currentBalance: {amount: 20}, change: {amount: 0}, operationStatus: 'MONEY_UPDATED'});
-
+    restService.addAmount = jest.fn().mockResolvedValue({orderId: 1, productToDispatch: null, balance: 10, status: 'MONEY_ADDED'});
+ 
     const container = await waitFor(() => render(<VendingMachineSetup resetVendingMachine = {mockFunction} />));
 
     const {getByText,getAllByTestId} = container;
     const currency1 = getAllByTestId('vm-currency-btn-id')[1];
     fireEvent.click(currency1);
-    await waitFor(() => expect(getByText('Your current balance amount is: 10')).toBeDefined());
-
-
-    fireEvent.click(currency1);
-    await waitFor(() => expect(getByText('Your current balance amount is: 20')).toBeDefined());
+    await waitFor(() => expect(getByText('Your current balance amount is Rs: 10')).toBeDefined());
 
   });
 
   it('Refund Amount', async () => {
-
     const mockFunction = jest.fn();
-    restService.addAmount = jest.fn().mockResolvedValue({requestId: 1, productToDispatch: null, currentBalance: {amount: 10}, change: {amount: 0}, operationStatus: 'MONEY_ADDED'});
-    restService.refundAmount = jest.fn().mockResolvedValue({requestId: 1, productToDispatch: null, currentBalance: {amount: 0}, change: {amount: 10}, operationStatus: 'REFUND_PROCESSED'});
+    restService.addAmount = jest.fn().mockResolvedValue({orderId: 1, productToDispatch: null, balance: 10, status: 'MONEY_ADDED'});
+    restService.refundAmount = jest.fn().mockResolvedValue({orderId: 1, productToDispatch: null, balance: 10, status: 'REFUND_PROCESSED'});
     
     const container = await waitFor(() => render(<VendingMachineSetup resetVendingMachine = {mockFunction} />));
 
     const {getByText,getAllByTestId} = container;
     const currency = getAllByTestId('vm-currency-btn-id')[1];
     fireEvent.click(currency);
-    await waitFor(() => expect(getByText('Your current balance amount is: 10')).toBeDefined());
+    await waitFor(() => expect(getByText('Your current balance amount is Rs: 10')).toBeDefined());
 
 
     const refundButton = getByText('Refund');
     fireEvent.click(refundButton);
-
-    await waitFor(() => expect(getByText('Please collect your balance amount: 10')).toBeDefined());
+    await waitFor(() => expect(getByText('Please collect your balance amount of Rs: 10')).toBeDefined());
     expect(getByText('Rs. 10')).toBeDefined();
     expect(refundButton).toBeDisabled();
 
     jest.runAllTimers();
 
     expect(mockFunction).toBeCalledTimes(1);
+        
   });
 
   it('Select Product', async () => {
 
     const mockFunction = jest.fn();
-    restService.addAmount = jest.fn().mockResolvedValue({requestId: 1, productToDispatch: null, currentBalance: {amount: 50}, change: {amount: 0}, operationStatus: 'MONEY_ADDED'});
-    restService.fetchProduct = jest.fn().mockResolvedValue({requestId: 1, productToDispatch: {name: 'Product 1', price: 20, id: 1}, currentBalance: {amount: 0}, change: {amount: 30}, operationStatus: 'PRODUCT_DISPATCHED'});
+  
+    restService.addAmount = jest.fn().mockResolvedValue({orderId: 1, productToDispatch: null, balance: 50, status: 'MONEY_ADDED'});
+    restService.fetchProduct = jest.fn().mockResolvedValue({orderId: 1, productToDispatch: {name: 'Product 1', price: 20, id: 1}, balance: 30, status: 'PRODUCT_DISPATCHED'});
     
     const componentRendered = await waitFor(() => render(<VendingMachineSetup resetVendingMachine = {mockFunction} />));
 
     const {getByText,getAllByTestId, getByTestId} = componentRendered;
     const currency = getAllByTestId('vm-currency-btn-id')[3];
     fireEvent.click(currency);
-    await waitFor(() => expect(getByText('Your current balance amount is: 50')).toBeDefined());
+    await waitFor(() => expect(getByText('Your current balance amount is Rs: 50')).toBeDefined());
 
 
     const product1Btn = getByTestId('product-select-1');
@@ -118,20 +113,14 @@ describe('Check various vending machine events', () => {
 
     const mockFunction = jest.fn();
     jest.spyOn(restService, 'addAmount').mockImplementation(() => {
-      return {requestId: 1, 
-        productToDispatch: null, 
-        currentBalance: {amount: 5}, 
-        change: {amount: 0}, 
-        operationStatus: 'MONEY_ADDED'
+      return {
+        orderId: 1, balance: 5, productToDispatch: null, status: 'MONEY_ADDED'
       }
-    });
+   });
 
     jest.spyOn(restService, 'fetchProduct').mockImplementation(() => {
-      return {requestId: 1, 
-        productToDispatch: null, 
-        currentBalance: {amount: 5}, 
-        change: {amount: 0}, 
-        operationStatus: 'INSUFFICIENT_BALANCE'
+      return {
+        orderId: 1, balance: 5, productToDispatch: null, status: 'INSUFFICIENT_BALANCE'
       }
     });
     
@@ -139,9 +128,9 @@ describe('Check various vending machine events', () => {
 
     const {getByText,getAllByTestId, getByTestId} = componentRendered;
     const currency = getAllByTestId('vm-currency-btn-id')[0];
+    
     fireEvent.click(currency);
-    await waitFor(() => expect(getByText('Your current balance amount is: 5')).toBeDefined());
-
+    await waitFor(() => expect(getByText('Your current balance amount is Rs: 5')).toBeDefined());
 
     const product1Btn = getByTestId('product-select-1');
     
@@ -149,7 +138,7 @@ describe('Check various vending machine events', () => {
 
     const {container} = componentRendered;
     const displayMsgcontainer = container.querySelectorAll('div.display-message-container');
-    await waitFor(() => expect(displayMsgcontainer[0].textContent).toBe('You have insufficient balance. Please collect your refund: 5'));
+    await waitFor(() => expect(displayMsgcontainer[0].textContent).toBe('You have insufficient balance. Please collect your refund of Rs: 5'));
     expect(getByText('Rs. 5')).toBeDefined();
 
     expect(container.querySelectorAll('div.animate').length).toBe(1);
