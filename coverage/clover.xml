@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629535026653" clover="3.2.0">
-  <project timestamp="1629535026653" name="All files">
-    <metrics statements="90" coveredstatements="41" conditionals="44" coveredconditionals="21" methods="12" coveredmethods="6" elements="146" coveredelements="68" complexity="0" loc="90" ncloc="90" packages="3" files="3" classes="3"/>
+<coverage generated="1629567407756" clover="3.2.0">
+  <project timestamp="1629567407757" name="All files">
+    <metrics statements="89" coveredstatements="51" conditionals="44" coveredconditionals="31" methods="12" coveredmethods="7" elements="145" coveredelements="89" complexity="0" loc="89" ncloc="89" packages="3" files="3" classes="3"/>
     <package name="behaviour">
-      <metrics statements="17" coveredstatements="15" conditionals="16" coveredconditionals="13" methods="5" coveredmethods="4"/>
+      <metrics statements="17" coveredstatements="17" conditionals="16" coveredconditionals="16" methods="5" coveredmethods="5"/>
       <file name="useVendingMachineActions.js" path="C:\Users\Madhura\workspace_git\prep\app-ui-vending-machine\src\behaviour\useVendingMachineActions.js">
-        <metrics statements="17" coveredstatements="15" conditionals="16" coveredconditionals="13" methods="5" coveredmethods="4"/>
+        <metrics statements="17" coveredstatements="17" conditionals="16" coveredconditionals="16" methods="5" coveredmethods="5"/>
         <line num="5" count="3" type="stmt"/>
-        <line num="7" count="24" type="stmt"/>
-        <line num="8" count="24" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="13" count="24" type="stmt"/>
-        <line num="15" count="11" type="cond" truecount="11" falsecount="1"/>
+        <line num="7" count="41" type="stmt"/>
+        <line num="8" count="41" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="13" count="41" type="stmt"/>
+        <line num="15" count="21" type="cond" truecount="12" falsecount="0"/>
         <line num="19" count="6" type="stmt"/>
         <line num="23" count="6" type="stmt"/>
-        <line num="34" count="5" type="stmt"/>
-        <line num="38" count="5" type="stmt"/>
-        <line num="39" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="40" count="5" type="stmt"/>
-        <line num="42" count="5" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="51" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="55" count="24" type="stmt"/>
+        <line num="34" count="14" type="stmt"/>
+        <line num="38" count="14" type="stmt"/>
+        <line num="39" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="40" count="14" type="stmt"/>
+        <line num="42" count="14" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="51" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="55" count="41" type="stmt"/>
       </file>
     </package>
     <package name="context">
-      <metrics statements="25" coveredstatements="14" conditionals="18" coveredconditionals="8" methods="1" coveredmethods="1"/>
+      <metrics statements="25" coveredstatements="23" conditionals="18" coveredconditionals="15" methods="1" coveredmethods="1"/>
       <file name="reducer.js" path="C:\Users\Madhura\workspace_git\prep\app-ui-vending-machine\src\context\reducer.js">
-        <metrics statements="25" coveredstatements="14" conditionals="18" coveredconditionals="8" methods="1" coveredmethods="1"/>
+        <metrics statements="25" coveredstatements="23" conditionals="18" coveredconditionals="15" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
-        <line num="10" count="11" type="cond" truecount="3" falsecount="1"/>
+        <line num="10" count="21" type="cond" truecount="3" falsecount="1"/>
         <line num="11" count="0" type="stmt"/>
-        <line num="14" count="11" type="cond" truecount="5" falsecount="7"/>
+        <line num="14" count="21" type="cond" truecount="11" falsecount="1"/>
         <line num="16" count="6" type="stmt"/>
-        <line num="17" count="6" type="stmt"/>
-        <line num="24" count="2" type="stmt"/>
-        <line num="25" count="2" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="50" count="1" type="stmt"/>
-        <line num="51" count="1" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
-        <line num="88" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="105" count="0" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="75" count="1" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="89" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="99" count="1" type="stmt"/>
+        <line num="107" count="0" type="stmt"/>
       </file>
     </package>
     <package name="services">
-      <metrics statements="48" coveredstatements="12" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="1"/>
+      <metrics statements="47" coveredstatements="11" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="1"/>
       <file name="rest-service.js" path="C:\Users\Madhura\workspace_git\prep\app-ui-vending-machine\src\services\rest-service.js">
-        <metrics statements="48" coveredstatements="12" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="1"/>
+        <metrics statements="47" coveredstatements="11" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="1"/>
         <line num="3" count="3" type="stmt"/>
         <line num="5" count="3" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -88,26 +88,25 @@
         <line num="61" count="5" type="stmt"/>
         <line num="62" count="5" type="stmt"/>
         <line num="63" count="5" type="stmt"/>
-        <line num="64" count="5" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="72" count="3" type="stmt"/>
+        <line num="71" count="3" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
+        <line num="77" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="78" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="79" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="81" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
-        <line num="88" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="96" count="0" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="87" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
       </file>
     </package>
   </project>

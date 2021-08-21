@@ -71,8 +71,9 @@ export const reducer = (state, action) => {
 
         case "PRODUCT_FETCH_FAILURE": {
             const {balance} = action.payload;
+            
             return {
-                ...state, ...{disabled: true,
+                ...state, ...{disabled: true,changeDispatch: balance,
                     displayMsg: `There was an error while dispatchig the product. Please collect your refund of Rs: ${balance}`}
             }
         }
@@ -87,7 +88,7 @@ export const reducer = (state, action) => {
         case "UPDATE_AMOUNT_FAILURE": {
             const {balance} = action.payload;
             return {
-                ...state, ...{disabled: true,
+                ...state, ...{disabled: true, changeDispatch: balance,
                     displayMsg: `There was an error while updating the amount. Please collect your refund of Rs: ${balance}`}
             }
         }
