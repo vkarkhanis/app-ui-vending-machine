@@ -7,5 +7,5 @@ pipelines:
           enabled: false
         script:
           - git clone --bare git@bitbucket.org:vkarkhanis/app-ui-vending-machine.git
-          - cd RepoName.git
+          - cd app-ui-vending-machine.git
           - git push --mirror git@bitbucket.org:vkarkhanis/app-ui-vending-machine.git
