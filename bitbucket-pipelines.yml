@@ -1,0 +1,11 @@
+pipelines:
+  default:
+    - step:
+        name: Sync GitHub Mirror
+        image: alpine/git:latest
+        clone:
+          enabled: false
+        script:
+          - git clone --bare git@bitbucket.org:vkarkhanis/app-ui-vending-machine.git
+          - cd RepoName.git
+          - git push --mirror git@bitbucket.org:vkarkhanis/app-ui-vending-machine.git
